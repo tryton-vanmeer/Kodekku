@@ -1,4 +1,5 @@
 mod cli;
+mod video;
 
 use anyhow::Result;
 
