@@ -1,6 +1,6 @@
 [package]
 name = "kodekku"
-version = "0.2.0"
+version = "0.3.0"
 description = "Tool for getting codec info about video files."
 readme = "README.md"
 license-file = "LICENSE"
@@ -10,4 +10,5 @@ edition = "2021"
 anyhow = "1"
 clap = { version = "4", features = ["derive"] }
 clap_complete = "4"
+colored = "2"
 ffmpeg-next = "6"
