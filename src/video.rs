@@ -4,8 +4,8 @@ use anyhow::{Context, Result};
 
 #[derive(Debug)]
 pub struct Video {
-    filename: String,
-    codec: String,
+    pub filename: String,
+    pub codec: String,
 }
 
 impl Video {

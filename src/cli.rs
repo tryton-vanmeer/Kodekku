@@ -1,3 +1,5 @@
+use crate::video::Video;
+
 use anyhow::Result;
 use clap::{Command, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, Shell};
@@ -32,6 +34,13 @@ fn generate_completions(shell: Shell, cmd: &mut Command) -> Result<()> {
     Ok(())
 }
 
+fn default_cmd(path: String) -> Result<()> {
+    let video = Video::new(&path)?;
+    println!("{}", video.codec);
+
+    Ok(())
+}
+
 pub fn run() -> Result<()> {
     let args = Cli::parse();
 
@@ -47,7 +56,7 @@ pub fn run() -> Result<()> {
             }
         }
     } else {
-        println!("{:#?}", args.path.unwrap());
+        default_cmd(args.path.unwrap())?
     }
 
     Ok(())
