@@ -12,3 +12,4 @@ clap = { version = "4", features = ["derive"] }
 clap_complete = "4"
 colored = "2"
 ffmpeg-next = "6"
+walkdir = "2"
