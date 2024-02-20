@@ -36,18 +36,17 @@ fn generate_completions(shell: Shell, cmd: &mut Command) -> Result<()> {
 }
 
 fn default_cmd(paths: Vec<String>) -> Result<()> {
-    if paths.len() == 1 {
-        let video = Video::new(paths.first().unwrap())?;
-        println!("{}", video.codec);
-    } else {
-        for path in paths {
-            let video = Video::new(&path)?;
-            println!(
+    for path in paths {
+        let video = Video::new(&path);
+
+        match video {
+            Ok(video) => println!(
                 "{}\t{}",
                 video.codec.green().bold(),
                 video.filename.purple().bold()
-            );
-        }
+            ),
+            Err(error) => eprintln!("{}: {}: {}", "Error".red(), path, error),
+        };
     }
 
     Ok(())
