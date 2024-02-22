@@ -1,11 +1,12 @@
-use std::path::PathBuf;
+use std::{fmt, path::PathBuf};
 
 use anyhow::{Context, Result};
+use colored::Colorize;
 
 #[derive(Debug)]
 pub struct Video {
-    pub filename: String,
-    pub codec: String,
+    filename: String,
+    codec: String,
 }
 
 impl Video {
@@ -32,5 +33,16 @@ impl Video {
             .to_string();
 
         Ok(Video { filename, codec })
+    }
+}
+
+impl fmt::Display for Video {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{}\t{}",
+            self.codec.green().bold(),
+            self.filename.purple().bold()
+        )
     }
 }

@@ -45,11 +45,7 @@ fn list_cmd() -> Result<()> {
             let video = Video::new(path);
 
             match video {
-                Ok(video) => println!(
-                    "{}\t{}",
-                    video.codec.green().bold(),
-                    video.filename.purple().bold()
-                ),
+                Ok(video) => println!("{}", video),
                 Err(error) => eprintln!("{}: {}: {}", "Error".red(), path, error),
             };
         }
@@ -63,11 +59,7 @@ fn default_cmd(paths: Vec<String>) -> Result<()> {
         let video = Video::new(&path);
 
         match video {
-            Ok(video) => println!(
-                "{}\t{}",
-                video.codec.green().bold(),
-                video.filename.purple().bold()
-            ),
+            Ok(video) => println!("{}", video),
             Err(error) => eprintln!("{}: {}: {}", "Error".red(), path, error),
         };
     }
