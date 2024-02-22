@@ -3,7 +3,7 @@ use crate::video::Video;
 use anyhow::Result;
 use clap::{Command, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, Shell};
-use colored::Colorize;
+use log::warn;
 use walkdir::WalkDir;
 
 #[derive(Parser, Debug)]
@@ -47,7 +47,7 @@ fn list_cmd() -> Result<()> {
 
             match video {
                 Ok(video) => println!("{}", video),
-                Err(error) => eprintln!("{}: {}: {}", "Error".red(), path, error),
+                Err(error) => warn!("{}: {}", path, error),
             };
         }
     }
@@ -61,7 +61,7 @@ fn default_cmd(paths: Vec<String>) -> Result<()> {
 
         match video {
             Ok(video) => println!("{}", video),
-            Err(error) => eprintln!("{}: {}: {}", "Error".red(), path, error),
+            Err(error) => warn!("{}: {}", path, error),
         };
     }
 
@@ -69,6 +69,8 @@ fn default_cmd(paths: Vec<String>) -> Result<()> {
 }
 
 pub fn run() -> Result<()> {
+    env_logger::init();
+
     let args = Cli::parse();
 
     if let Some(cmd) = args.cmd {
