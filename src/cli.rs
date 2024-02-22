@@ -3,7 +3,8 @@ use crate::video::Video;
 use anyhow::Result;
 use clap::{Command, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, Shell};
-use log::warn;
+use clap_verbosity_flag::{InfoLevel, Verbosity};
+use log::debug;
 use walkdir::WalkDir;
 
 #[derive(Parser, Debug)]
@@ -14,6 +15,8 @@ struct Cli {
     /// File(s) to get the codec of
     #[arg(required = true)]
     file: Option<Vec<String>>,
+    #[command(flatten)]
+    verbose: Verbosity<InfoLevel>,
 }
 
 #[derive(Subcommand, Debug)]
@@ -47,7 +50,7 @@ fn list_cmd() -> Result<()> {
 
             match video {
                 Ok(video) => println!("{}", video),
-                Err(error) => warn!("{}: {}", path, error),
+                Err(error) => debug!("{}: {}", path, error),
             };
         }
     }
@@ -61,7 +64,7 @@ fn default_cmd(paths: Vec<String>) -> Result<()> {
 
         match video {
             Ok(video) => println!("{}", video),
-            Err(error) => warn!("{}: {}", path, error),
+            Err(error) => debug!("{}: {}", path, error),
         };
     }
 
@@ -69,9 +72,10 @@ fn default_cmd(paths: Vec<String>) -> Result<()> {
 }
 
 pub fn run() -> Result<()> {
-    env_logger::init();
-
     let args = Cli::parse();
+    env_logger::Builder::new()
+        .filter_level(args.verbose.log_level_filter())
+        .init();
 
     if let Some(cmd) = args.cmd {
         match cmd {
