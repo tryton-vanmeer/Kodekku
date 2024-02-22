@@ -11,8 +11,9 @@ use walkdir::WalkDir;
 struct Cli {
     #[command(subcommand)]
     cmd: Option<Commands>,
+    /// File(s) to get the codec of
     #[arg(required = true)]
-    path: Option<Vec<String>>,
+    file: Option<Vec<String>>,
 }
 
 #[derive(Subcommand, Debug)]
@@ -83,7 +84,7 @@ pub fn run() -> Result<()> {
             Commands::List {} => list_cmd()?,
         }
     } else {
-        default_cmd(args.path.unwrap())?
+        default_cmd(args.file.unwrap())?
     }
 
     Ok(())
