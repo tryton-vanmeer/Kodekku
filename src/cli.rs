@@ -27,8 +27,12 @@ enum Commands {
         #[clap(value_enum)]
         shell: Option<Shell>,
     },
-    /// Walk over all files in the current directory
-    List {},
+    /// Walk over all files in a directory
+    List {
+        /// Root directory to walk
+        #[arg(default_value=".")]
+        path: String
+    },
 }
 
 fn generate_completions(shell: Shell, cmd: &mut Command) -> Result<()> {
@@ -42,8 +46,8 @@ fn generate_completions(shell: Shell, cmd: &mut Command) -> Result<()> {
     Ok(())
 }
 
-fn list_cmd() -> Result<()> {
-    for entry in WalkDir::new(".").into_iter().flatten() {
+fn list_cmd(root: String) -> Result<()> {
+    for entry in WalkDir::new(root).into_iter().flatten() {
         if entry.metadata()?.is_file() {
             let path = entry.path().to_str().unwrap();
             let video = Video::new(path);
@@ -87,7 +91,7 @@ pub fn run() -> Result<()> {
 
                 generate_completions(gen, &mut Cli::command())?
             }
-            Commands::List {} => list_cmd()?,
+            Commands::List { path } => list_cmd(path)?,
         }
     } else {
         default_cmd(args.file.unwrap())?
