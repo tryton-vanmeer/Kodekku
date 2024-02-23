@@ -15,6 +15,10 @@ kodekku --help
 ## Development
 
 ```shell
+# requirements
+# https://github.com/zmwangx/rust-ffmpeg/wiki/Notes-on-building
+dnf install ffmpeg-devel
+
 # build
 cargo build
 
