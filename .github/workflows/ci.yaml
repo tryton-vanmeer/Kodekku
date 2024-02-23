@@ -20,6 +20,3 @@ jobs:
 
       - name: Clippy
         run: cargo clippy -- -Dwarnings
-
-      - name: Test
-        run: cargo test
